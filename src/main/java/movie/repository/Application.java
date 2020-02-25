@@ -1,4 +1,4 @@
-package movie.repository2;
+package movie.repository;
 
 import io.micronaut.runtime.Micronaut;
 
