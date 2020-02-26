@@ -3,6 +3,7 @@ package movie.repository.web;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.PathVariable;
 import io.reactivex.Maybe;
 import movie.repository.dto.Movie;
 import movie.repository.service.MovieService;
@@ -18,8 +19,8 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @Get(produces = MediaType.APPLICATION_JSON)
-    public Maybe<List<Movie>> getMovies() {
-        return movieService.get();
+    @Get("/{title}")
+    public Maybe<List<Movie>> getMovies(@PathVariable String title) {
+        return movieService.get(title);
     }
 }

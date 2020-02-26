@@ -22,10 +22,10 @@ public class MovieService {
         this.httpClient = httpClient;
     }
 
-    public Maybe<List<Movie>> get() {
+    public Maybe<List<Movie>> get(String title) {
 
         URI uri = UriBuilder.of("/")
-                .queryParam("i","tt3896198")
+                .queryParam("t",title)
                 .queryParam("apikey","6dae1e0f").build();
         HttpRequest<?> req = HttpRequest.GET(uri);
         Flowable flowable = httpClient.retrieve(req, Argument.listOf(Movie.class));
