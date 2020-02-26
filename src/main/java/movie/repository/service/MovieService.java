@@ -22,14 +22,13 @@ public class MovieService {
         this.httpClient = httpClient;
     }
 
-    public String get() {
+    public Maybe<List<Movie>> get() {
 
         URI uri = UriBuilder.of("/")
                 .queryParam("i","tt3896198")
                 .queryParam("apikey","6dae1e0f").build();
         HttpRequest<?> req = HttpRequest.GET(uri);
         Flowable flowable = httpClient.retrieve(req, Argument.listOf(Movie.class));
-        Maybe movie = flowable.firstElement();
-        return ((List<Movie>)movie.blockingGet()).get(0).getTitle();
+        return flowable.firstElement();
     }
 }

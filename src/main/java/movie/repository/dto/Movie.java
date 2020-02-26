@@ -1,18 +1,23 @@
 package movie.repository.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+@Data
 public class Movie {
 
     @JsonProperty("Title")
     private String title;
 
+    @JsonProperty("Year")
+    private String year;
 
-    public String getTitle() {
-        return title;
-    }
+    @JsonProperty("Runtime")
+    private String runtime;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    private String rating;
+
+    @JsonProperty("Country")
+    private String country;
+
 }
