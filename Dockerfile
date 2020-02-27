@@ -1,4 +1,14 @@
-FROM adoptopenjdk/openjdk13-openj9:jdk-13.0.2_8_openj9-0.18.0-alpine-slim
-COPY target/movie-repository2-*.jar movie-repository2.jar
+FROM oracle/graalvm-ce:20.0.0-java8 as graalvm
+#FROM oracle/graalvm-ce:20.0.0-java11 as graalvm # For JDK 11
+RUN gu install native-image
+
+COPY . /home/app/micronaut-graal-app
+WORKDIR /home/app/micronaut-graal-app
+
+RUN native-image --no-server -cp build/libs/complete-*-all.jar
+
+FROM frolvlad/alpine-glibc
+RUN apk update && apk add libstdc++
 EXPOSE 8080
-CMD ["java", "-Dcom.sun.management.jmxremote", "-Xmx128m", "-XX:+IdleTuningGcOnIdle", "-Xtune:virtualized", "-jar", "movie-repository2.jar"]
+COPY --from=graalvm /home/app/micronaut-graal-app/micronaut-graal-app /micronaut-graal-app/micronaut-graal-app
+ENTRYPOINT ["/micronaut-graal-app/micronaut-graal-app"]
